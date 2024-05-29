@@ -18,31 +18,20 @@ import javax.annotation.PostConstruct;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class WriteDataToExcel {
+public class ExcelWithFilePath {
 
-	@Autowired
-	private ResourceLoader resourceLoader;
-
-	@PostConstruct
 	public void writeToW() throws Exception {
-		Resource resource = resourceLoader.getResource("classpath:Book1.xlsx");
+		String filePath = "D:\\Book1.xlsx";
 
 		String sheetName = "InstrumentDetails";
-		String filStr = resource.getURI().toURL().getPath();
-//		String filString = resource.getURI().toURL().getPath().replace("/","\\");
-		String filString = "C:\\Users\\vishn\\Downloads\\openoutlook\\openoutlook\\target\\classes\\Book1.xlsx";
-
 
 		List<InstrumentDetails> instrumentList = new ArrayList<>();
 		instrumentList.add(new InstrumentDetails(5027, "Guitar", "Vishnu", 299.99, LocalDate.of(2024, 1, 1)));
-		instrumentList.add(new InstrumentDetails(5028, "Piano", "lal", 499.99, LocalDate.of(2024, 2, 1)));
+		instrumentList.add(new InstrumentDetails(5028, "Piano", "Keyboard", 499.99, LocalDate.of(2024, 2, 1)));
 		instrumentList.add(new InstrumentDetails(5029, "Flute", "Wind", 149.99, LocalDate.of(2024, 3, 1)));
 
 		Map<String, InstrumentDetails> studentData = instrumentList.stream()
@@ -50,7 +39,7 @@ public class WriteDataToExcel {
 						instrument -> instrument, (existing, replacement) -> existing, // Handle duplicate keys
 						TreeMap::new));
 		try {
-			File file = new File(filString);
+			File file = new File(filePath);
 
 			XSSFWorkbook workbook;
 			Sheet sheet;
